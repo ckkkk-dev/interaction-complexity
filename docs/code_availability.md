@@ -11,12 +11,8 @@ complexity computation used in the paper revision. It contains:
 - scripts for reproducing Table I/II-style statistics when planner labels are
   provided.
 
-The repository does not contain:
-
-- MCTS scenario-generation code;
-- planner implementations;
-- private server paths or experiment logs;
-- manuscript-review drafts or private working files.
+The repository does not contain planner implementations, private server paths,
+experiment logs, manuscript-review drafts, or private working files.
 
 Large scenario datasets and planner outputs should be stored outside the Git
 repository.

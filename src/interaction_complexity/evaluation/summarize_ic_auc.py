@@ -29,7 +29,7 @@ def mean_finite(values: Sequence[float]) -> float:
 
 
 def scenario_dirs(scene_root: Path) -> List[Path]:
-    return sorted([p for p in scene_root.iterdir() if p.is_dir() and not p.name.endswith("_MCTS")])
+    return sorted([p for p in scene_root.iterdir() if p.is_dir()])
 
 
 def load_ic_scores(scene_root: Path) -> pd.DataFrame:

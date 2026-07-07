@@ -6,8 +6,7 @@ complexity (IC) metric used in the paper:
 > Interaction Complexity in Autonomous Driving: A Subjective-Objective
 > Quantification Framework
 
-The released code focuses on the IC computation pipeline only. It does **not**
-include the MCTS scenario-generation experiments or planner implementations.
+The released code focuses on the IC computation pipeline only.
 
 Given a CommonRoad XML scenario and an IC configuration, the code computes:
 
