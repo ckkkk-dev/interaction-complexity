@@ -21,6 +21,7 @@
   "workers": 24,
   "random_trials": 128,
   "terminal_samples": 50,
+  "seed": 2025,
   "expert_mode": "local_horizon",
   "social_config": {
     "filter_mode": "union",

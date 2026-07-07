@@ -703,7 +703,8 @@ def gaussian_process_regression(S_all, all_speed_profile):
         gp = GaussianProcessRegressor(kernel=kernel,
                                     n_restarts_optimizer=5,
                                     alpha=1e-6,
-                                    normalize_y=True)
+                                    normalize_y=True,
+                                    random_state=0)
         gp.fit(X_t, y_t)
         gp_models.append(gp)
     return gp_models

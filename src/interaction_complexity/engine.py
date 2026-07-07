@@ -75,10 +75,13 @@ def compute_ic_single(
     n_step: Optional[int] = None,
     seed: int = 2025,
 ) -> Dict[str, Any]:
+    np.random.seed(int(seed))
     _prepare_legacy_imports()
     from Interaction_complexity import compute_scene_complexity_for_scenario  # type: ignore
 
     cfg = load_config(config_path)
+    seed = int(cfg.get("seed", seed))
+    np.random.seed(seed)
     out_dir = Path(output_dir).resolve()
     sid = scenario_id_from_path(scenario)
     steps = int(n_step) if n_step is not None else dynamic_n_step(sid, 0 if cfg.get("horizon", "full") == "full" else 30)
