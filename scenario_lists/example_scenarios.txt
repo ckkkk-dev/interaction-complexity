@@ -1,0 +1,3 @@
+examples/CHN_SIND-834_10834_LEFT_T-10935.xml
+examples/CHN_SIND-831_4204_LEFT_T-4285.xml
+examples/CHN_SIND-821_2143_LEFT_T-2218.xml
