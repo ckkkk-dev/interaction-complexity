@@ -1,6 +1,17 @@
 import numpy as np
 from scipy.stats import qmc
 
+def _sorted_reach_nodes(nodes):
+    return sorted(
+        list(nodes),
+        key=lambda n: (
+            float(n.p_lon_min),
+            float(n.p_lon_max),
+            float(n.p_lat_min),
+            float(n.p_lat_max),
+        ),
+    )
+
 def make_preview_dict(p0, v0, a0, T_preview=3.0, dt=0.1):
     """
     生成常加速度预瞄轨迹，并打包成
@@ -30,7 +41,7 @@ def make_preview_dict(p0, v0, a0, T_preview=3.0, dt=0.1):
 def _infer_last_corridor_step(corridors, max_probe=1000):
     last_step = None
     for k in range(max_probe + 1):
-        nodes = corridors[0].reach_nodes_at_step(k)
+        nodes = _sorted_reach_nodes(corridors[0].reach_nodes_at_step(k))
         if not nodes:
             break
         last_step = k
@@ -49,7 +60,7 @@ def nodes_sample(corridors, n_samples=50, terminal_step=None):
         raise ValueError(f"terminal_step must be non-negative, got {terminal_step}")
 
     # 1) 使用当前规划 horizon 对应的最后一帧 corridor
-    nodes = corridors[0].reach_nodes_at_step(terminal_step)
+    nodes = _sorted_reach_nodes(corridors[0].reach_nodes_at_step(terminal_step))
     if not nodes:
         raise ValueError(f"No reach nodes found at terminal_step={terminal_step}")
     # 2) 计算总包围框
@@ -92,7 +103,7 @@ from typing import List, Tuple, Dict
 
 def corridor_bounds(corridors, step:int, s_val:float) -> Tuple[float,float]:
 
-    for n in corridors[0].reach_nodes_at_step(step):
+    for n in _sorted_reach_nodes(corridors[0].reach_nodes_at_step(step)):
         if n.p_lon_min <= s_val <= n.p_lon_max:
             return n.p_lat_min, n.p_lat_max
     return None, None

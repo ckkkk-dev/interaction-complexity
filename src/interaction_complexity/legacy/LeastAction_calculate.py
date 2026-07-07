@@ -1,6 +1,17 @@
 from enum import Enum
 import numpy as np
 
+def _sorted_reach_nodes(nodes):
+    return sorted(
+        list(nodes),
+        key=lambda n: (
+            float(n.p_lon_min),
+            float(n.p_lon_max),
+            float(n.p_lat_min),
+            float(n.p_lat_max),
+        ),
+    )
+
 class ObstacleType(Enum):
     BUS = 1
     CAR = 2
@@ -734,7 +745,7 @@ def sample_inside_corridor(
     pts (n,2) ndarray  均匀落在所有 reach-nodes 长方形内部
     """
     rng = default_rng() if rng is None else rng
-    nodes = corridor.reach_nodes_at_step(step)
+    nodes = _sorted_reach_nodes(corridor.reach_nodes_at_step(step))
     # —— 预先计算每个小矩形面积 & 累积分布 —— #
     areas = np.array([(n.p_lon_max - n.p_lon_min) *
                       (n.p_lat_max - n.p_lat_min) for n in nodes])
