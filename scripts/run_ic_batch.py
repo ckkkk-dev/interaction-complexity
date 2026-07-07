@@ -43,6 +43,7 @@ def run_one(sid: str, args) -> dict:
         return {"scenario_id": scenario_id, "status": "skipped"}
     import os
     env = os.environ.copy()
+    env.setdefault("PYTHONHASHSEED", "0")
     for var in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
         env.setdefault(var, "1")
     with (log_dir / f"{scenario_id}.log").open("w", encoding="utf-8") as log:

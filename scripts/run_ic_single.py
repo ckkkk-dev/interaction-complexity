@@ -2,8 +2,14 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from pathlib import Path
+
+if os.environ.get("PYTHONHASHSEED") != "0":
+    env = os.environ.copy()
+    env["PYTHONHASHSEED"] = "0"
+    os.execvpe(sys.executable, [sys.executable, *sys.argv], env)
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
@@ -20,7 +26,7 @@ def main() -> None:
     parser.add_argument("--fusion-config", default="configs/normalized_fusion.yaml")
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--n-step", type=int, default=None)
-    parser.add_argument("--seed", type=int, default=2025)
+    parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--no-vis", action="store_true")
     args = parser.parse_args()
     summary = compute_ic_single(
@@ -30,7 +36,7 @@ def main() -> None:
         output_dir=args.output_dir,
         no_vis=args.no_vis,
         n_step=args.n_step,
-        seed=args.seed,
+        seed=2025 if args.seed is None else args.seed,
     )
     print(summary)
 

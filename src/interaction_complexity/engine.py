@@ -80,7 +80,7 @@ def compute_ic_single(
     from Interaction_complexity import compute_scene_complexity_for_scenario  # type: ignore
 
     cfg = load_config(config_path)
-    seed = int(cfg.get("seed", seed))
+    seed = int(seed if seed is not None else cfg.get("seed", 2025))
     np.random.seed(seed)
     out_dir = Path(output_dir).resolve()
     sid = scenario_id_from_path(scenario)
