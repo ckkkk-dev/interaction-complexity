@@ -8,8 +8,10 @@ Public implementation for the paper:
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![CommonRoad](https://img.shields.io/badge/Scenario-CommonRoad-orange)](https://commonroad.in.tum.de/)
 
-This repository computes interaction complexity (IC) for CommonRoad scenarios.
-IC measures scenario difficulty from two complementary perspectives:
+This repository computes interaction complexity (IC) for driving scenarios in
+the CommonRoad XML format. The paper primarily evaluates SIND left-turn
+scenarios converted into this format. IC measures scenario difficulty from two
+complementary perspectives:
 
 - **IC-Area**: interaction-induced contraction of the reachable driving corridor;
 - **IC-Action**: additional least-action decision cost relative to a counterfactual
