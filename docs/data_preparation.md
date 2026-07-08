@@ -8,7 +8,7 @@ For your own data, either pass an explicit XML path:
 ```bash
 python scripts/run_ic_single.py \
   --scenario /path/to/scenario.xml \
-  --config configs/ic_v5_alpha1.json \
+  --config configs/ic_default.json \
   --output-dir outputs/my_scenario \
   --no-vis
 ```

@@ -20,9 +20,9 @@ from interaction_complexity.engine import compute_ic_single
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run IC-V5 for one CommonRoad scenario.")
+    parser = argparse.ArgumentParser(description="Run interaction complexity for one CommonRoad XML scenario.")
     parser.add_argument("--scenario", required=True)
-    parser.add_argument("--config", default="configs/ic_v5_alpha1.json")
+    parser.add_argument("--config", default="configs/ic_default.json")
     parser.add_argument("--fusion-config", default="configs/normalized_fusion.yaml")
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--n-step", type=int, default=None)

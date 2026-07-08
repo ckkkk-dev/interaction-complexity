@@ -52,9 +52,9 @@ def run_one(sid: str, args) -> dict:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run IC-V5 for a scenario list.")
+    parser = argparse.ArgumentParser(description="Run interaction complexity for a scenario list.")
     parser.add_argument("--scenario-list", required=True)
-    parser.add_argument("--config", default="configs/ic_v5_alpha1.json")
+    parser.add_argument("--config", default="configs/ic_default.json")
     parser.add_argument("--fusion-config", default="configs/normalized_fusion.yaml")
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--workers", type=int, default=4)

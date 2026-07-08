@@ -7,9 +7,9 @@ This repository separates metric computation from planner evaluation.
 ```bash
 python scripts/run_ic_batch.py \
   --scenario-list scenario_lists/sind_left_turn_1075.txt \
-  --config configs/ic_v5_alpha1.json \
+  --config configs/ic_default.json \
   --fusion-config configs/normalized_fusion.yaml \
-  --output-dir outputs/ic_v5_full \
+  --output-dir outputs/ic_full \
   --workers 24
 ```
 
@@ -17,7 +17,7 @@ This produces per-scenario `scene_complexity.pkl` files and a normalized fusion
 table under:
 
 ```text
-outputs/ic_v5_full/normalized_fusion/scores_and_labels.csv
+outputs/ic_full/normalized_fusion/scores_and_labels.csv
 ```
 
 ## Step 2: Add Planner Labels
@@ -36,7 +36,7 @@ repository.
 
 ```bash
 python scripts/reproduce_table1_table2.py \
-  --scores outputs/ic_v5_full/normalized_fusion/scores_and_labels.csv \
+  --scores outputs/ic_full/normalized_fusion/scores_and_labels.csv \
   --labels path/to/planner_labels.csv \
   --output-dir outputs/table_reproduction
 ```

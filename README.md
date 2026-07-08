@@ -77,7 +77,7 @@ Run IC on one example scenario:
 ```bash
 python scripts/run_ic_single.py \
   --scenario examples/CHN_SIND-834_10834_LEFT_T-10935.xml \
-  --config configs/ic_v5_alpha1.json \
+  --config configs/ic_default.json \
   --fusion-config configs/normalized_fusion.yaml \
   --output-dir outputs/ic_single/CHN_SIND-834_10834_LEFT_T-10935 \
   --no-vis
@@ -116,7 +116,7 @@ included examples:
 ```bash
 python scripts/run_ic_batch.py \
   --scenario-list scenario_lists/example_scenarios.txt \
-  --config configs/ic_v5_alpha1.json \
+  --config configs/ic_default.json \
   --fusion-config configs/normalized_fusion.yaml \
   --output-dir outputs/ic_example_batch \
   --workers 3
@@ -133,10 +133,10 @@ This repository includes several example CommonRoad XML scenarios under
 the paper is available upon reasonable request. Please contact
 `chen_kun@tongji.edu.cn` for access.
 
-## Paper Configuration
+## Default Configuration
 
-The released configuration `configs/ic_v5_alpha1.json` corresponds to the
-paper revision setting:
+The default configuration is provided in `configs/ic_default.json`. It enables
+the settings used for the main experiments in the paper:
 
 - full-horizon evaluation (`n_step = frame_out - frame_in`);
 - component-scaled least-action field;
@@ -152,30 +152,34 @@ kept fixed during evaluation.
 See [docs/method_overview.md](docs/method_overview.md) for the implementation
 details and the mapping between code outputs and paper notation.
 
-## Reproducing Paper-Style Tables
+## Evaluation with Planner Labels
 
-The paper evaluates IC against fixed planner-failure labels. This repository
-does not ship planner outputs, but it provides the scripts used to reproduce
-the table statistics once scores and labels are available.
+Interaction complexity scores can be evaluated against planner outcomes such as
+failure, collision, or success labels. This repository provides a utility for
+computing common statistical measures, including AUC, point-biserial
+correlation, logistic-regression coefficients, Spearman trend tests, and
+McNemar tests.
 
-1. Run `scripts/run_ic_batch.py` on your scenario set.
-2. Prepare a labels CSV with columns:
+To run the evaluation:
+
+1. Compute IC scores with `scripts/run_ic_batch.py`.
+2. Prepare a planner-label CSV with columns such as:
 
 ```text
 scenario_id,rl_fail,cr_fail,cs_fail
 ```
 
-3. Reproduce Table I/II-style statistics:
+3. Run:
 
 ```bash
 python scripts/reproduce_table1_table2.py \
   --scores outputs/ic_example_batch/normalized_fusion/scores_and_labels.csv \
   --labels path/to/planner_labels.csv \
-  --output-dir outputs/table_reproduction
+  --output-dir outputs/evaluation_metrics
 ```
 
 See [docs/reproduce_paper_results.md](docs/reproduce_paper_results.md) for
-details.
+a complete description of the expected inputs and generated metrics.
 
 ## Citation
 

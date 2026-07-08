@@ -32,7 +32,7 @@ ActionField = normalized physical action
             + alpha * normalized path-conflict action
 ```
 
-where `alpha = 1.0` in `configs/ic_v5_alpha1.json`.
+where `alpha = 1.0` in `configs/ic_default.json`.
 
 ### Path-Conflict Potential
 
@@ -62,7 +62,7 @@ setting `w_area = 0.7`, `w_action = 0.3`.
 - `ic_area`: scenario-level IC-Area;
 - `ic_action`: scenario-level IC-Action;
 - `ic_combined_raw_0p5`: legacy raw 0.5/0.5 frame-level score;
-- `action_field_component_scaled`: whether the V5 component-scaled action field
+- `action_field_component_scaled`: whether the component-scaled action field
   is active;
 - `path_conflict_event_count`: number of detected reference-path conflict
   events.
