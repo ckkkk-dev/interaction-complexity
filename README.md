@@ -124,6 +124,13 @@ If a scenario id rather than a path is used, the script resolves it under
 `data/sind_left_turn/<scenario_id>.xml`. For public use, explicit XML paths are
 recommended.
 
+## Data Access
+
+This repository includes several example CommonRoad XML scenarios under
+`examples/` for quick testing. The full SIND left-turn XML scenario set used in
+the paper is available upon reasonable request. Please contact
+`chen_kun@tongji.edu.cn` for access.
+
 ## Paper Configuration
 
 The released configuration `configs/ic_v5_alpha1.json` corresponds to the
@@ -167,26 +174,6 @@ python scripts/reproduce_table1_table2.py \
 
 See [docs/reproduce_paper_results.md](docs/reproduce_paper_results.md) for
 details.
-
-## What Is Included
-
-- IC computation from CommonRoad XML scenarios;
-- full-horizon reachable-area scoring;
-- component-scaled least-action field;
-- reference-path temporal-conflict interaction potential;
-- GP/DP action evaluation;
-- robust normalized fusion;
-- utilities for reproducing paper-style statistical tables.
-
-## What Is Not Included
-
-- private SIND/CommonRoad datasets;
-- planner implementations and planner-result files;
-- private review notes, logs, or server paths;
-- large-scale experiment outputs.
-
-Users can reproduce the scoring pipeline with their own CommonRoad scenarios
-and planner labels.
 
 ## Citation
 
