@@ -1,31 +1,51 @@
 # Interaction Complexity
 
-This repository contains the public implementation of the interaction
-complexity (IC) metric used in the paper:
+Public implementation for the paper:
 
-> Interaction Complexity in Autonomous Driving: A Subjective-Objective
-> Quantification Framework
+> **Interaction Complexity in Autonomous Driving: A Feasibility and Decision-Cost Quantification Framework**
 
-The released code focuses on the IC computation pipeline only.
+[![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![CommonRoad](https://img.shields.io/badge/Scenario-CommonRoad-orange)](https://commonroad.in.tum.de/)
 
-Given a CommonRoad XML scenario and an IC configuration, the code computes:
+This repository computes interaction complexity (IC) for CommonRoad scenarios.
+IC measures scenario difficulty from two complementary perspectives:
 
-- `IC-Area`: reachable-area restriction score;
-- `IC-Action`: least-action GP/DP trajectory-evaluation score;
-- `IC-Combined`: normalized fusion of area and action components.
+- **IC-Area**: interaction-induced contraction of the reachable driving corridor;
+- **IC-Action**: additional least-action decision cost relative to a counterfactual
+  no-interaction baseline;
+- **IC-Combined**: robust normalized fusion of the area and action components.
+
+The release focuses on the IC computation and paper-table reproduction pipeline.
+Large datasets, planner outputs, and private experiment logs are not included.
+
+## Overview
+
+<p align="center">
+  <img src="docs/assets/interaction_complexity_framework.png" alt="Concept framework of interaction complexity" width="92%">
+</p>
+
+<p align="center">
+  <em>Concept framework of interaction complexity. The metric combines feasible-space contraction with a physics-informed least-action decision-cost proxy.</em>
+</p>
+
+For each scenario, the pipeline constructs an actual multi-agent case and a
+counterfactual no-dynamic-obstacle case. It then compares their reachable
+corridors and least-action fields to obtain a scene-level complexity score.
 
 ## Repository Layout
 
 ```text
 interaction-complexity/
-├── configs/                  # IC-V5 and normalized-fusion configs
+├── configs/                  # paper configuration and normalized-fusion stats
 ├── docs/                     # method, data, and reproduction notes
-├── examples/                 # three small CommonRoad XML examples
+├── examples/                 # small CommonRoad XML examples
+├── scenario_lists/           # example scenario lists
 ├── scripts/                  # command-line entry points
 ├── src/interaction_complexity/
 │   ├── engine.py             # public single-scenario IC API
-│   ├── evaluation/           # normalized fusion and paper-table utilities
-│   └── legacy/               # IC full-horizon reachable-set + least-action core
+│   ├── evaluation/           # normalized fusion and table utilities
+│   └── legacy/               # reachable-set + least-action core
 ├── tests/
 ├── README.md
 ├── LICENSE
@@ -35,7 +55,7 @@ interaction-complexity/
 
 ## Installation
 
-Create the conda environment:
+Create the conda environment and install the package in editable mode:
 
 ```bash
 conda env create -f environment.yml
@@ -45,8 +65,8 @@ pip install -e .
 
 The implementation depends on the CommonRoad ecosystem, especially
 `commonroad-io`, `commonroad-reach`, and `commonroad-drivability-checker`.
-If your platform needs custom CommonRoad installation steps, install those
-packages following the official CommonRoad instructions, then run `pip install -e .`.
+If your platform requires custom CommonRoad installation steps, install those
+packages first and then run `pip install -e .`.
 
 ## Quick Start
 
@@ -71,14 +91,14 @@ path_conflict_diagnostics.json
 metadata.json
 ```
 
-The concise JSON summary reports the values most users need:
+The concise JSON summary reports the main scores:
 
 ```json
 {
-  "ic_area": ...,
-  "ic_action": ...,
-  "ic_combined_raw_0p5": ...,
-  "ic_combined_normalized_w_area_0p7": ...,
+  "ic_area": "...",
+  "ic_action": "...",
+  "ic_combined_raw_0p5": "...",
+  "ic_combined_normalized_w_area_0p7": "...",
   "action_field_component_scaled": true
 }
 ```
@@ -104,7 +124,26 @@ If a scenario id rather than a path is used, the script resolves it under
 `data/sind_left_turn/<scenario_id>.xml`. For public use, explicit XML paths are
 recommended.
 
-## Reproducing Paper Tables
+## Paper Configuration
+
+The released configuration `configs/ic_v5_alpha1.json` corresponds to the
+paper revision setting:
+
+- full-horizon evaluation (`n_step = frame_out - frame_in`);
+- component-scaled least-action field;
+- reference-path temporal-conflict potential inside the social-interaction term;
+- incremental Gaussian-process field reconstruction;
+- incremental physical dynamic-programming path selection;
+- robust normalized area/action fusion.
+
+The normalized fusion statistics are stored in
+`configs/normalized_fusion.yaml`. They are estimated from the training split and
+kept fixed during evaluation.
+
+See [docs/method_overview.md](docs/method_overview.md) for the implementation
+details and the mapping between code outputs and paper notation.
+
+## Reproducing Paper-Style Tables
 
 The paper evaluates IC against fixed planner-failure labels. This repository
 does not ship planner outputs, but it provides the scripts used to reproduce
@@ -129,28 +168,25 @@ python scripts/reproduce_table1_table2.py \
 See [docs/reproduce_paper_results.md](docs/reproduce_paper_results.md) for
 details.
 
-## Method Summary
+## What Is Included
 
-The released configuration `configs/ic_v5_alpha1.json` corresponds to the
-paper revision setting:
-
-- full-horizon evaluation (`n_step = frame_out - frame_in`);
+- IC computation from CommonRoad XML scenarios;
+- full-horizon reachable-area scoring;
 - component-scaled least-action field;
-- reference-path path-conflict potential;
-- incremental GP target;
-- incremental physical DP;
-- normalized area/action fusion.
+- reference-path temporal-conflict interaction potential;
+- GP/DP action evaluation;
+- robust normalized fusion;
+- utilities for reproducing paper-style statistical tables.
 
-See [docs/method_overview.md](docs/method_overview.md) for the implementation
-details and how the outputs map to paper notation.
+## What Is Not Included
 
-## Code Availability Statement
+- private SIND/CommonRoad datasets;
+- planner implementations and planner-result files;
+- private review notes, logs, or server paths;
+- large-scale experiment outputs.
 
-This repository is intended to support paper reproducibility and future
-research on interaction complexity. The released code computes IC from
-CommonRoad XML scenarios and exposes the configuration used in the paper. Large
-datasets and planner outputs are not included; users should provide their own
-CommonRoad scenarios and planner labels when reproducing evaluation tables.
+Users can reproduce the scoring pipeline with their own CommonRoad scenarios
+and planner labels.
 
 ## Citation
 
