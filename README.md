@@ -2,7 +2,7 @@
 
 Public implementation for the paper:
 
-> **Interaction Complexity in Autonomous Driving: A Feasibility and Decision-Cost Quantification Framework**
+> **Interaction Complexity in Autonomous Driving: A Dual-Perspective Metric**
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
